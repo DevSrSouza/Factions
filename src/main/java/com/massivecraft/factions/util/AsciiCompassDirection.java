@@ -10,11 +10,11 @@ public enum AsciiCompassDirection
 	
 	N('N'),
 	NE('/'),
-	E('E'),
+	E('L'),
 	SE('\\'),
 	S('S'),
 	SW('/'),
-	W('W'),
+	W('O'),
 	NW('\\'),
 	NONE('+'),
 	
@@ -33,7 +33,7 @@ public enum AsciiCompassDirection
 	// -------------------------------------------- //
 	
 	public static final ChatColor ACTIVE = ChatColor.RED;
-	public static final ChatColor INACTIVE = ChatColor.YELLOW;
+	public static final ChatColor INACTIVE = ChatColor.GOLD;
 	
 	// -------------------------------------------- //
 	// CONSTRUCT
@@ -53,7 +53,7 @@ public enum AsciiCompassDirection
 		boolean isFacing = this.isFacing(directionFacing);
 		ChatColor color = this.getColor(isFacing);
 		
-		return color.toString() + this.getAsciiChar();
+		return color.toString() + ChatColor.BOLD + this.getAsciiChar();
 	}
 	
 	private boolean isFacing(AsciiCompassDirection directionFacing)

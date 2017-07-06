@@ -1,26 +1,17 @@
 package com.massivecraft.factions.entity;
 
-import com.massivecraft.factions.Const;
-import com.massivecraft.factions.Factions;
-import com.massivecraft.factions.RelationParticipator;
-import com.massivecraft.factions.TerritoryAccess;
+import com.massivecraft.factions.*;
 import com.massivecraft.factions.util.AsciiCompass;
 import com.massivecraft.massivecore.collections.MassiveMap;
 import com.massivecraft.massivecore.collections.MassiveSet;
 import com.massivecraft.massivecore.ps.PS;
 import com.massivecraft.massivecore.store.Entity;
-import com.massivecraft.massivecore.util.Txt;
 import com.massivecraft.massivecore.xlib.gson.reflect.TypeToken;
+import org.bukkit.ChatColor;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 public class Board extends Entity<Board> implements BoardInterface
@@ -355,7 +346,10 @@ public class Board extends Entity<Board> implements BoardInterface
 		List<Object> ret = new ArrayList<>();
 		Faction centerFaction = this.getFactionAt(centerPs);
 		
-		ret.add(Txt.titleize("(" + centerPs.getChunkX() + "," + centerPs.getChunkZ() + ") " + centerFaction.getName(observer)));
+		//ret.add(Txt.titleize("(" + centerPs.getChunkX() + "," + centerPs.getChunkZ() + ") " + centerFaction.getName(observer)));
+		ret.add("   ");
+
+		String blacklargesquare = "█";
 		
 		int halfWidth = width / 2;
 		int halfHeight = height / 2;
@@ -368,8 +362,9 @@ public class Board extends Entity<Board> implements BoardInterface
 		List<String> asciiCompass = AsciiCompass.getAsciiCompass(inDegrees);
 		
 		// Make room for the list of names
-		height--;
-		
+		//height--;
+
+
 		Map<Faction, Character> fList = new HashMap<>();
 		int chrIdx = 0;
 		boolean overflown = false;
@@ -387,7 +382,6 @@ public class Board extends Entity<Board> implements BoardInterface
 					continue;
 				}
 
-				if ( ! overflown && chrIdx >= Const.MAP_KEY_CHARS.length) overflown = true;
 
 				PS herePs = topLeftPs.plusChunkCoords(dx, dz);
 				Faction hereFaction = this.getFactionAt(herePs);
@@ -403,30 +397,37 @@ public class Board extends Entity<Board> implements BoardInterface
 				else
 				{
 					if ( ! contains) fList.put(hereFaction, Const.MAP_KEY_CHARS[chrIdx++]);
-					char fchar = fList.get(hereFaction);
-					row.append(hereFaction.getColorTo(observer).toString()).append(fchar);
+					//char fchar = fList.get(hereFaction);
+					row.append(hereFaction.getColorTo(observer).toString()).append(blacklargesquare);
 				}
 			}
 			
 			String line = row.toString();
 			
 			// Add the compass
-			if (dz == 0) line = asciiCompass.get(0) + line.substring(3*3);
-			if (dz == 1) line = asciiCompass.get(1) + line.substring(3*3);
-			if (dz == 2) line = asciiCompass.get(2) + line.substring(3*3);
+			if (dz == 5) line = line + "      " + asciiCompass.get(0);
+			if (dz == 6) line = line + "      " + asciiCompass.get(1);
+			if (dz == 7) line = line + "      " + asciiCompass.get(2);
+			if (dz == 9) line = line + "      " + MConf.get().colorAlly + blacklargesquare + " " + ChatColor.WHITE + "Aliada";
+			if (dz == 10) line = line + "      " + MConf.get().colorEnemy + blacklargesquare + " " + ChatColor.WHITE + "Inimiga";
+			if (dz == 11) line = line + "      " + Const.MAP_KEY_SEPARATOR + " " + ChatColor.WHITE + "Sua posição";
+			if (dz == 12) line = line + "      " + Const.MAP_KEY_WILDERNESS + " " + ChatColor.WHITE + "Zona Livre";
+			if (dz == 13) line = line + "      " + MConf.get().colorNoPVP + blacklargesquare + " " + ChatColor.WHITE + "Zona Protegida";
+			if (dz == 14) line = line + "      " + MConf.get().colorFriendlyFire + blacklargesquare + " " + ChatColor.WHITE + "Zona de Guerra";
+			if (dz == 15) line = line + "      " + MConf.get().colorMember + blacklargesquare + " " + ChatColor.WHITE + "Sua facção";
 			
 			ret.add(line);
 		}
 			
-		String fRow = "";
+		/*String fRow = "";
 		for (Faction keyfaction : fList.keySet())
 		{
 			fRow += keyfaction.getColorTo(observer).toString() + fList.get(keyfaction) + ": " + keyfaction.getName() + " ";
 		}
 		if (overflown) fRow += Const.MAP_OVERFLOW_MESSAGE;
 		fRow = fRow.trim();
-		ret.add(fRow);
-		
+		ret.add(fRow);*/
+
 		return ret;
 	}
 	

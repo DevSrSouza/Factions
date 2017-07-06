@@ -451,8 +451,8 @@ public class MConf extends Entity<MConf>
 	// Here you can alter the colors tied to certain faction relations and settings.
 	// You probably don't want to edit these to much.
 	// Doing so might confuse players that are used to Factions.
-	public ChatColor colorMember = ChatColor.GREEN;
-	public ChatColor colorAlly = ChatColor.DARK_PURPLE;
+	public ChatColor colorMember = ChatColor.DARK_GRAY;
+	public ChatColor colorAlly = ChatColor.GREEN;
 	public ChatColor colorTruce = ChatColor.LIGHT_PURPLE;
 	public ChatColor colorNeutral = ChatColor.WHITE;
 	public ChatColor colorEnemy = ChatColor.RED;
